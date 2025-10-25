@@ -1,30 +1,31 @@
-// assets/js/app.js
+const form = document.getElementById('pledgeForm');
+const pledgeTableBody = document.querySelector('#pledgeTable tbody');
 
-// Use your working Apps Script URL directly
-const XLS_API = "https://script.google.com/macros/s/AKfycbwZfxGDW-O7Jz4cTLChkZqc40SX_aTBV26_RlNw0B0JPaJmyYbN8PiA7HAs5kTF_P1Z/exec";
-
+// Scroll to pledge section
 document.getElementById('takePledgeBtn').addEventListener('click', () => {
   document.getElementById('pledge').scrollIntoView({ behavior: 'smooth' });
 });
 
-// helper to get checked commitments
-function getCommitments(form) {
-  return Array.from(form.querySelectorAll('input[name="commitment"]:checked')).map(n => n.value);
+// Get selected commitments
+function getCommitments() {
+  return Array.from(form.querySelectorAll('input[name="commitment"]:checked')).map(i => i.value);
 }
 
-// fetch all pledges from Google Sheet
-async function fetchPledges() {
-  if (!XLS_API) return;
-  try {
-    const res = await fetch(XLS_API + '?action=get');
-    const data = await res.json();
-    updateKPIsAndWall(data);
-  } catch (e) {
-    console.error('Could not fetch pledges', e);
-  }
+// Save a pledge to localStorage
+function savePledge(record) {
+  let pledges = JSON.parse(localStorage.getItem('pledges') || '[]');
+  record.id = pledges.length + 1;
+  pledges.push(record);
+  localStorage.setItem('pledges', JSON.stringify(pledges));
 }
 
-// update KPIs and pledge wall
+// Load all pledges from localStorage
+function loadPledges() {
+  const pledges = JSON.parse(localStorage.getItem('pledges') || '[]');
+  updateKPIsAndWall(pledges);
+}
+
+// Update KPIs and Pledge Wall
 function updateKPIsAndWall(data) {
   const achieved = data.length;
   document.getElementById('kpi-achieved').innerText = achieved;
@@ -33,58 +34,40 @@ function updateKPIsAndWall(data) {
   document.getElementById('kpi-students').innerText = students;
   document.getElementById('kpi-workers').innerText = workers;
 
-  const tbody = document.querySelector('#pledgeTable tbody');
-  tbody.innerHTML = '';
+  pledgeTableBody.innerHTML = '';
   data.slice().reverse().forEach(r => {
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${r.id}</td><td>${r.name}</td><td>${r.date}</td><td>${r.state}</td><td>${r.profile}</td><td>${'★'.repeat(Math.min(5, r.commitCount))}</td>`;
-    tbody.appendChild(tr);
+    pledgeTableBody.appendChild(tr);
   });
 }
 
-// form submission
-document.getElementById('pledgeForm').addEventListener('submit', async (e) => {
+// Handle form submission
+form.addEventListener('submit', function(e){
   e.preventDefault();
-  const form = e.target;
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const mobile = form.mobile.value.trim();
-  const state = form.state.value;
-  const profile = form.profile.value;
-  const commitments = getCommitments(form);
-
-  if (!name || !email || !mobile) {
-    alert('Please fill required fields');
-    return;
-  }
-
-  const payload = {
-    name, email, mobile, state, profile,
-    commitments, commitCount: commitments.length,
+  const record = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    mobile: form.mobile.value.trim(),
+    state: form.state.value,
+    profile: form.profile.value,
+    commitments: getCommitments(),
+    commitCount: getCommitments().length,
     date: new Date().toLocaleString()
   };
 
-  try {
-    const res = await fetch(XLS_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'add', record: payload })
-    });
-    const result = await res.json();
-    if (result.success) {
-      showCertificate(payload);
-      fetchPledges();
-      form.reset();
-    } else {
-      throw new Error(result.message || 'Unknown error');
-    }
-  } catch (err) {
-    console.error(err);
-    alert('Submission failed, try again.');
+  if (!record.name || !record.email || !record.mobile) {
+    alert('Please fill all required fields');
+    return;
   }
+
+  savePledge(record);
+  showCertificate(record);
+  form.reset();
+  loadPledges();
 });
 
-// show certificate
+// Show certificate
 function showCertificate(data) {
   const area = document.getElementById('certificateArea');
   area.hidden = false;
@@ -102,20 +85,20 @@ function showCertificate(data) {
   });
 }
 
-// certificate download
+// Certificate download
 async function downloadCertificate() {
   const node = document.getElementById('certCard');
   if (window.html2canvas) {
     const canvas = await html2canvas(node);
     const dataUrl = canvas.toDataURL('image/png');
     const a = document.createElement('a');
-    a.href = dataUrl; a.download = 'certificate.png'; a.click();
+    a.href = dataUrl; 
+    a.download = 'certificate.png'; 
+    a.click();
   } else {
-    alert('Certificate download requires html2canvas script (include it).');
+    alert('Certificate download requires html2canvas script');
   }
 }
 
-// initialize
-fetchPledges();
-
-
+// Initialize pledge wall
+loadPledges();
