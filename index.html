@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Climate Action Pledge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <header id="hero" class="hero">
+    <div class="container">
+      <h1>Take the Climate Action Pledge</h1>
+      <p>Small changes, huge collective impact — pledge today.</p>
+      <button id="takePledgeBtn">Take the Pledge</button>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <section id="kpis" class="kpis">
+    <div class="container">
+      <div class="kpi-card">
+        <h3>Target</h3>
+        <p id="kpi-target">1,000,000</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Achieved</h3>
+        <p id="kpi-achieved">0</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Students</h3>
+        <p id="kpi-students">0</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Working Professionals</h3>
+        <p id="kpi-workers">0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why" class="why">
+    <div class="container">
+      <h2>Why take climate action?</h2>
+      <p>Individual choices add up. Reduce footprint, inspire others, and build community momentum.</p>
+    </div>
+  </section>
+
+  <!-- PLEDGE FORM -->
+  <section id="pledge" class="pledge">
+    <div class="container">
+      <h2>Make your pledge</h2>
+      <form id="pledgeForm">
+        <input name="name" placeholder="Full name" required />
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="mobile" placeholder="Mobile number" required />
+<select name="state" required>
+  <option value="">Select State / UT</option>
+
+  <!-- States -->
+  <option value="Andhra Pradesh">Andhra Pradesh</option>
+  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+  <option value="Assam">Assam</option>
+  <option value="Bihar">Bihar</option>
+  <option value="Chhattisgarh">Chhattisgarh</option>
+  <option value="Goa">Goa</option>
+  <option value="Gujarat">Gujarat</option>
+  <option value="Haryana">Haryana</option>
+  <option value="Himachal Pradesh">Himachal Pradesh</option>
+  <option value="Jharkhand">Jharkhand</option>
+  <option value="Karnataka">Karnataka</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Madhya Pradesh">Madhya Pradesh</option>
+  <option value="Maharashtra">Maharashtra</option>
+  <option value="Manipur">Manipur</option>
+  <option value="Meghalaya">Meghalaya</option>
+  <option value="Mizoram">Mizoram</option>
+  <option value="Nagaland">Nagaland</option>
+  <option value="Odisha">Odisha</option>
+  <option value="Punjab">Punjab</option>
+  <option value="Rajasthan">Rajasthan</option>
+  <option value="Sikkim">Sikkim</option>
+  <option value="Tamil Nadu">Tamil Nadu</option>
+  <option value="Telangana">Telangana</option>
+  <option value="Tripura">Tripura</option>
+  <option value="Uttar Pradesh">Uttar Pradesh</option>
+  <option value="Uttarakhand">Uttarakhand</option>
+  <option value="West Bengal">West Bengal</option>
+
+  <!-- Union Territories -->
+  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+  <option value="Chandigarh">Chandigarh</option>
+  <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+  <option value="Ladakh">Ladakh</option>
+  <option value="Lakshadweep">Lakshadweep</option>
+  <option value="Puducherry">Puducherry</option>
+</select>
+
+        <label>Profile</label>
+        <select name="profile">
+          <option>Student</option>
+          <option>Working Professional</option>
+          <option>Other</option>
+        </select>
+
+        <!-- commitments: 3 themes x 3 checkboxes each (example) -->
+        <div class="commitments">
+          <h3>Energy</h3>
+          <label><input type="checkbox" name="commitment" value="Switch to LED"> Switch to LED</label>
+          <label><input type="checkbox" name="commitment" value="Use public transport"> Use public transport</label>
+          <label><input type="checkbox" name="commitment" value="Reduce heating"> Reduce heating</label>
+          <!-- Repeat for 2 other themes -->
+        </div>
+
+        <button type="submit">Submit pledge</button>
+      </form>
+
+      <p class="privacy-note">Mobile & Email required for verification, never shown publicly.</p>
+
+      <!-- Certificate placeholder -->
+      <div id="certificateArea" class="certificate-area" hidden></div>
+    </div>
+  </section>
+
+  <!-- PLEDGE WALL -->
+  <section id="wall" class="wall">
+    <div class="container">
+      <h2>Pledge Wall</h2>
+      <table id="pledgeTable">
+        <thead><tr><th>ID</th><th>Name</th><th>Date</th><th>State</th><th>Profile</th><th>Love</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
