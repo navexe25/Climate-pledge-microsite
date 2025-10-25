@@ -1,7 +1,7 @@
 // assets/js/app.js
 
 // Use your working Apps Script URL directly
-const XLS_API = "https://script.google.com/macros/s/AKfycbw-M6hFZ68L4yIsE5eU3gUYm_0xt0rreKtRlScCdgOeW6q3tIj3iquM9hyxwnn-PrqJ/exec";
+const XLS_API = "https://script.google.com/macros/s/AKfycbwZfxGDW-O7Jz4cTLChkZqc40SX_aTBV26_RlNw0B0JPaJmyYbN8PiA7HAs5kTF_P1Z/exec";
 
 document.getElementById('takePledgeBtn').addEventListener('click', () => {
   document.getElementById('pledge').scrollIntoView({ behavior: 'smooth' });
@@ -117,4 +117,5 @@ async function downloadCertificate() {
 
 // initialize
 fetchPledges();
+
 
